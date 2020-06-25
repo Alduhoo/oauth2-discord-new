@@ -122,4 +122,16 @@ class Discord extends AbstractProvider
     {
         return new DiscordResourceOwner($response);
     }
+
+    protected function getAllowedClientOptions(array $options)
+    {
+        $client_options = ['timeout', 'proxy', 'idn_conversion'];
+
+        // Only allow turning off ssl verification if it's for a proxy
+        if (!empty($options['proxy'])) {
+            $client_options[] = 'verify';
+        }
+
+        return $client_options;
+    }
 }
